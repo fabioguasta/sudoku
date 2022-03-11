@@ -3,17 +3,18 @@
 #include <cstring>
 #include <cstdlib>
 using namespace std;
-#define empty 0
 #define N 9
 bool isGridSafe(int grid[N][N], int row, int col, int num);
 bool isEmptyLocation(int grid[N][N], int &row, int &col);
-/* assign values to all the zero (not assigned) values for Sudoku solution
- */
+
+/* assign values to all the zero (not assigned) values for Sudoku solution*/
 bool SolveSudoku(int grid[N][N])
 {
     int row, col;
+
     if (!isEmptyLocation(grid, row, col))
        return true;
+
     for (int num = 1; num <= 9; num++)
     {
         if (isGridSafe(grid, row, col, num))
@@ -21,22 +22,23 @@ bool SolveSudoku(int grid[N][N])
             grid[row][col] = num;
             if (SolveSudoku(grid))
                 return true;
-            grid[row][col] = empty;
+            grid[row][col] = 0;
         }
     }
     return false;
 }
-/* Check for entries that don't have a value. */
+
+//check empty space
 bool isEmptyLocation(int grid[N][N], int &row, int &col)
 {
     for (row = 0; row < N; row++)
         for (col = 0; col < N; col++)
-            if (grid[row][col] == empty)
+            if (grid[row][col] == 0)
                 return true;
     return false;
 }
-/* Returns whether the assigned entry n in the particular row matches
-   the given number num. */
+
+// restituisce true se number e' presente nella riga prow, false altrimenti
 bool UsedInRow(int grid[N][N], int prow, int number)
 {
     for (int col = 0; col < N; col++)
@@ -44,7 +46,8 @@ bool UsedInRow(int grid[N][N], int prow, int number)
             return true;
     return false;
 }
-/* Returns true if the number num matches any number in the column */
+
+// restituisce true se number e' presente nella colonna pcol, false altrimenti
 bool UsedInCol(int grid[N][N], int pcol, int number)
 {
     for (int row = 0; row < N; row++)
@@ -52,7 +55,9 @@ bool UsedInCol(int grid[N][N], int pcol, int number)
             return true;
   else 
      return false;
-//Check if the entry used already in the grid box
+}
+
+//restituisce true se il numero number e' presente nella griglia, false altrimenti
 bool UsedInBox(int grid[N][N], int boxBeginRow, int boxBeginCol, int number)
 
 {
@@ -63,13 +68,15 @@ bool UsedInBox(int grid[N][N], int boxBeginRow, int boxBeginCol, int number)
                 tf = true;
     return tf;
 }
-/* Checks if num can be assigned to a given prow,pcol location. */
+
+// restituisce true se number puo essere assegnato alla posizione prow pcol, false altrimenti
 bool isGridSafe(int grid[N][N], int prow, int pcol, int number)
 {
     return !UsedInRow(grid, prow, number) && !UsedInCol(grid, pcol, number) &&
            !UsedInBox(grid, prow - prow % 3 , pcol - pcol % 3, number);
 }
-/* print result  */
+
+
 void printResult(int finalgrid[N][N])
 {
     for (int row = 0; row < N; row++)
@@ -79,7 +86,8 @@ void printResult(int finalgrid[N][N])
         cout<<endl;
     }
 }
-/* Main */
+
+
 int main()
 {
     int grid[N][N] = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
