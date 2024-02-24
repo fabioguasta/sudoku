@@ -1,3 +1,3 @@
 # sudoku
 
-Sudoku solver to improve C++
+Sudoku solver to improve C++, NO GUI
